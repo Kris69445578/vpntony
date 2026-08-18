@@ -1,0 +1,21 @@
+[Unit]
+Description=SSH-WS per-account traffic collector
+After=network-online.target ssh.service ssh-ws.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ssh-ws
+ExecStart=/usr/bin/python3 /opt/ssh-ws/sshws-traffic-collector.py
+Restart=always
+RestartSec=5
+User=root
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadOnlyPaths=/opt/ssh-ws /etc/ssh-ws
+ReadWritePaths=/var/lib/ssh-ws
+
+[Install]
+WantedBy=multi-user.target

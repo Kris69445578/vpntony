@@ -1,0 +1,28 @@
+[Unit]
+Description=Private SSH WebSocket and CONNECT transport
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ssh-ws
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /opt/ssh-ws/sshws_server.py
+Restart=on-failure
+RestartSec=3
+User=root
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/ssh-ws
+ReadOnlyPaths=/opt/ssh-ws /etc/ssh-ws
+# The transport accepts HTTP Custom directly on public TCP port 80. CONNECT
+# requests are allowlisted and bridge only to the local SSH service at
+# 127.0.0.1:22; WebSocket/legacy SSH transports use the same backend.
+# Managed accounts obtain client-controlled destinations only through
+# authenticated SSH local/dynamic forwarding configured in sshd_config.d.
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

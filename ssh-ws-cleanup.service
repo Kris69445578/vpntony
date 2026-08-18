@@ -1,0 +1,6 @@
+[Unit]
+Description=Expire SSH WebSocket accounts
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/ssh-ws/sshws_cli.py expire

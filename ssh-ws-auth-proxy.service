@@ -1,0 +1,22 @@
+[Unit]
+Description=SSHWS authenticated HTTP and SOCKS proxy
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ssh-ws
+ExecStart=/usr/bin/python3 /opt/ssh-ws/sshws-auth-proxy.py
+User=root
+Group=root
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadOnlyPaths=/opt/ssh-ws
+ReadWritePaths=/etc/ssh-ws
+
+[Install]
+WantedBy=multi-user.target
